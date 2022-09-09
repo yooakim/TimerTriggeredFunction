@@ -1,0 +1,21 @@
+version: '3.9'
+
+services:
+  timertriggeredfunction:
+    image: timertriggeredfunction
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - ~/.vsdbg:/remote_debugger:rw
+    depends_on: 
+      - azurite
+
+  azurite:
+    image: mcr.microsoft.com/azure-storage/azurite
+    hostname: azurite
+    restart: always
+    command: "azurite --blobHost 127.0.0.1 --blobPort 10000"
+    ports:
+      - "10000:10000"
+
